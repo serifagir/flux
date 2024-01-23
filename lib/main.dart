@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flux/pages/mainpage.dart';
+import 'package:flux/pages/settings.dart';
+import 'package:flux/pages/stats.dart';
+import 'package:flux/theme/dark_theme.dart';
+import 'package:flux/theme/light_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,7 +14,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final size = MediaQuery.of(context).size;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
       home: Scaffold(body: MainPage()),
     );
   }
