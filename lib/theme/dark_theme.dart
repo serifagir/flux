@@ -8,7 +8,7 @@ class DarkThemeColors {
 }
 
 ThemeData darkTheme = ThemeData(
-  colorScheme: ColorScheme.light(
+  colorScheme: ColorScheme.dark(
     primary: DarkThemeColors.primary,
     secondary: DarkThemeColors.secondary,
     background: DarkThemeColors.background,

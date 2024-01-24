@@ -14,4 +14,8 @@ class FluxNotifier with ChangeNotifier {
         seconds: seconds));
     notifyListeners();
   }
+
+  bool isTickingSoundOn = true;
+  bool isBackgroundSoundOn = true;
+  bool isNotificationOn = true;
 }
