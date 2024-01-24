@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flux/components/countdown_controller_button.dart';
 import 'package:flux/notifier/flux_notifier..dart';
 import 'package:flux/pages/settings.dart';
+import 'package:flux/pages/stats.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_count_down/timer_controller.dart';
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> {
   int breakDuration = 5;
   int longBreakDuration = 30;
   int sessionCount = 4;
-  int countdownSeconds = 10;
+  int countdownSeconds = 2;
 
   DateTime remainingTime = DateTime.now().add(Duration(minutes: 15));
 
@@ -188,7 +189,7 @@ class _MainPageState extends State<MainPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()),
+                    MaterialPageRoute(builder: (context) => StatsPage()),
                   );
                 },
               ),
@@ -242,6 +243,8 @@ class _MainPageState extends State<MainPage> {
                           interval: Duration(milliseconds: 100),
                           onFinished: () {
                             print('Timer is done!');
+                            notifier.addCompletedFlux(countdownSeconds);
+                            print(notifier.completedFluxes);
                             setState(() {
                               notifier.isTimerRunning = false;
                             });
