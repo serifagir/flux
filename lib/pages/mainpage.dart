@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:flux/components/countdown_controller_button.dart';
+import 'package:flux/notifier/flux_notifier..dart';
 import 'package:flux/pages/settings.dart';
-import 'package:flux/pages/stats.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,133 +16,274 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  void editFlux() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                title: Text(
-                  "Configure",
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.w700),
-                ),
-                content: const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Flux Duration"),
-                        DropdownMenu(
-                          dropdownMenuEntries: [],
-                        )
-                      ],
-                    ),
-                    Text("Break Duration"),
-                    Text("Settings"),
-                  ],
-                ),
-                actions: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
-                      Row(
-                        children: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Cancel"),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Save"),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ]));
-  }
+  String fluxDuration = "15";
+  int breakDuration = 5;
+  int longBreakDuration = 30;
+  int sessionCount = 4;
+  int countdownSeconds = 10;
+
+  DateTime remainingTime = DateTime.now().add(Duration(minutes: 15));
+
+  final CountdownController _countdownController =
+      new CountdownController(autoStart: true);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            bottom: size.height * 0.05,
-            left: 15,
-            child: IconButton(
-              icon: const Icon(
-                CupertinoIcons.waveform,
-                size: 30,
-              ),
-              onPressed: () => editFlux(),
-            ),
-          ),
-          Positioned(
-            bottom: size.height * 0.05,
-            right: 15,
-            child: IconButton(
-              icon: const Icon(
-                Icons.analytics_outlined,
-                size: 30,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
-              },
-            ),
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("flux",
-                    style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.primary)),
-                TimerCountdown(
-                    enableDescriptions: false,
-                    format: CountDownTimerFormat.hoursMinutes,
-                    colonsTextStyle: TextStyle(
-                        fontSize: 75,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.primary),
-                    timeTextStyle: GoogleFonts.roboto(
-                        fontSize: 100,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.primary),
-                    endTime: DateTime.now().add(
-                      Duration(
-                        hours: 14,
-                        minutes: 27,
-                        seconds: 34,
-                      ),
-                    )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 10,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          shape: BoxShape.circle),
+    return Consumer<FluxNotifier>(
+      builder: (_, notifier, __) => Scaffold(
+        body: Stack(
+          children: [
+            Positioned(
+                bottom: size.height * 0.05,
+                left: 15,
+                child: IconButton(
+                    icon: const Icon(
+                      CupertinoIcons.waveform,
+                      size: 30,
                     ),
-                  ],
-                )
-              ],
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Configure"),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  DropdownButtonFormField(
+                                      isExpanded: true,
+                                      icon: SizedBox.shrink(),
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          labelText: "Flux Duration",
+                                          labelStyle: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                      items: [
+                                        "15",
+                                        "25",
+                                        "30",
+                                        "40",
+                                        "50",
+                                        "60",
+                                        "Custom"
+                                      ]
+                                          .map((e) => DropdownMenuItem(
+                                              alignment: Alignment.center,
+                                              value: e,
+                                              child: Text(e,
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w800))))
+                                          .toList(),
+                                      value: fluxDuration,
+                                      onChanged: (e) => {
+                                            setState(() {
+                                              fluxDuration = e!;
+                                            })
+                                          }),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  DropdownButtonFormField(
+                                      isExpanded: true,
+                                      icon: SizedBox.shrink(),
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          labelText: "Break Duration",
+                                          labelStyle: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                      items: ["5", "10", "15", "Custom"]
+                                          .map((e) => DropdownMenuItem(
+                                              alignment: Alignment.center,
+                                              value: e,
+                                              child: Text(e,
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w800))))
+                                          .toList(),
+                                      value: breakDuration.toString(),
+                                      onChanged: (e) => {
+                                            setState(() {
+                                              breakDuration = int.parse(e!);
+                                            })
+                                          }),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  DropdownButtonFormField(
+                                      isExpanded: true,
+                                      icon: SizedBox.shrink(),
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          labelText: "Session Count",
+                                          labelStyle: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                      items: ["2", "3", "4", "Custom"]
+                                          .map((e) => DropdownMenuItem(
+                                              alignment: Alignment.center,
+                                              value: e,
+                                              child: Text(e,
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w800))))
+                                          .toList(),
+                                      value: sessionCount.toString(),
+                                      onChanged: (e) => {
+                                            setState(() {
+                                              sessionCount = int.parse(e!);
+                                            })
+                                          }),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      countdownSeconds =
+                                          int.parse(fluxDuration) * 60;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Set"),
+                                ),
+                              ],
+                            );
+                          });
+                    })),
+            Positioned(
+              bottom: size.height * 0.05,
+              right: 15,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.analytics_outlined,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      sessionCount, // Replace this with your session count variable
+                      (index) => Container(
+                        margin: EdgeInsets.all(5.0),
+                        width: 10.0,
+                        height: 10.0,
+                        decoration: BoxDecoration(
+                          color: Colors
+                              .transparent, // Theme.of(context).colorScheme.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  !notifier.isTimerRunning
+                      ? Text(
+                          '${countdownSeconds ~/ 60}:${(countdownSeconds % 60).toStringAsFixed(0).padLeft(2, '0')}',
+                          style: GoogleFonts.poppins(
+                              fontSize: 100,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary))
+                      : Countdown(
+                          controller: _countdownController,
+                          seconds: countdownSeconds,
+                          build: (BuildContext context, double time) {
+                            String timerValue =
+                                '${(time - 1) ~/ 60}:${((time) % 60).toStringAsFixed(0).padLeft(2, '0')}';
+                            return Text(
+                              timerValue,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 100,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.primary),
+                            );
+                          },
+                          interval: Duration(milliseconds: 100),
+                          onFinished: () {
+                            print('Timer is done!');
+                            setState(() {
+                              notifier.isTimerRunning = false;
+                            });
+                          },
+                        ),
+                  IconButton(
+                    icon: Icon(
+                      notifier.isTimerRunning
+                          ? notifier.isTimerPaused
+                              ? CupertinoIcons.play_arrow
+                              : CupertinoIcons.pause
+                          : CupertinoIcons.play_arrow,
+                      size: 40,
+                    ),
+                    onPressed: () {
+                      if (notifier.isTimerRunning) {
+                        if (notifier.isTimerPaused) {
+                          _countdownController.resume();
+                          notifier.isTimerPaused = false;
+                          print("isTimerPaused: ${notifier.isTimerPaused}");
+                          print("isTimerRunning: ${notifier.isTimerRunning}");
+                        } else {
+                          _countdownController.pause();
+                          notifier.isTimerPaused = true;
+                          print("isTimerPaused: ${notifier.isTimerPaused}");
+                          print("isTimerRunning: ${notifier.isTimerRunning}");
+                        }
+                      } else {
+                        notifier.isTimerRunning = true;
+                        notifier.isTimerPaused = false;
+                        print("isTimerPaused: ${notifier.isTimerPaused}");
+                        print("isTimerRunning: ${notifier.isTimerRunning}");
+                        // Start the timer here
+                      }
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
