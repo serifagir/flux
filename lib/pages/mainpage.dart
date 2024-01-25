@@ -1,8 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flux/components/configure_dialog/break_duration_form.dart';
 import 'package:flux/components/configure_dialog/flux_duration_form.dart';
+import 'package:flux/components/configure_dialog/session_count_form.dart';
 import 'package:flux/components/countdown_timer_component.dart';
+import 'package:flux/components/session_count_indicator.dart';
 import 'package:flux/notifier/flux_notifier..dart';
 import 'package:flux/pages/block_apps.dart';
 import 'package:flux/pages/stats.dart';
@@ -33,6 +36,18 @@ class _MainPageState extends State<MainPage> {
   void updateFluxDuration(int newFluxDuration) {
     setState(() {
       fluxDuration = newFluxDuration;
+    });
+  }
+
+  void updateBreakDuration(int newBreakDuration) {
+    setState(() {
+      breakDuration = newBreakDuration;
+    });
+  }
+
+  void updateSessionCount(int newSessionCount) {
+    setState(() {
+      sessionCount = newSessionCount;
     });
   }
 
@@ -156,63 +171,16 @@ class _MainPageState extends State<MainPage> {
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  DropdownButtonFormField(
-                      isExpanded: true,
-                      icon: SizedBox.shrink(),
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          labelText: "Break Duration",
-                          labelStyle: GoogleFonts.poppins(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          )),
-                      items: ["5", "10", "15", "Custom"]
-                          .map((e) => DropdownMenuItem(
-                              alignment: Alignment.center,
-                              value: e,
-                              child: Text(e,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800))))
-                          .toList(),
-                      value: breakDuration.toString(),
-                      onChanged: (e) => {
-                            setState(() {
-                              breakDuration = int.parse(e!);
-                            })
-                          }),
+                  BreakDurationForm(
+                    breakDuration: breakDuration,
+                    onBreakDurationChanged: updateBreakDuration,
+                  ),
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  DropdownButtonFormField(
-                      isExpanded: true,
-                      icon: SizedBox.shrink(),
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          labelText: "Session Count",
-                          labelStyle: GoogleFonts.poppins(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          )),
-                      items: ["2", "3", "4", "Custom"]
-                          .map((e) => DropdownMenuItem(
-                              alignment: Alignment.center,
-                              value: e,
-                              child: Text(e,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800))))
-                          .toList(),
-                      value: sessionCount.toString(),
-                      onChanged: (e) => {
-                            setState(() {
-                              sessionCount = int.parse(e!);
-                            })
-                          }),
+                  SessionCountForm(
+                      sessionCount: sessionCount,
+                      onSessionCountChanged: updateSessionCount),
                   SizedBox(
                     height: size.height * 0.02,
                   ),
@@ -404,37 +372,5 @@ class _MainPageState extends State<MainPage> {
             ),
           );
         });
-  }
-}
-
-class SessionCountIndicator extends StatelessWidget {
-  const SessionCountIndicator({
-    super.key,
-    required this.sessionCount,
-  });
-
-  final int sessionCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        sessionCount, // Replace this with your session count variable
-        (index) => Container(
-          margin: EdgeInsets.all(5.0),
-          width: 10.0,
-          height: 10.0,
-          decoration: BoxDecoration(
-            color: Colors.transparent, // Theme.of(context).colorScheme.primary,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1.0,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

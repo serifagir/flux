@@ -25,33 +25,37 @@ class _CountdownTimerComponentState extends State<CountdownTimerComponent> {
   @override
   Widget build(BuildContext context) {
     if (widget.notifier.isTimerRunning) {
-      return Countdown(
-        controller: widget.countdownController,
-        seconds: widget.countdownSeconds,
-        build: (BuildContext context, double time) {
-          String timerValue =
-              '${(time - 1) ~/ 60}:${((time) % 60).toStringAsFixed(0).padLeft(2, '0')}';
-          return Text(
-            timerValue,
-            style: GoogleFonts.poppins(
-                fontSize: 100,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).colorScheme.primary),
-          );
-        },
-        interval: Duration(milliseconds: 100),
-        onFinished: () {
-          print('Timer is done!');
-          widget.notifier.addCompletedFlux(widget.countdownSeconds);
-          print(widget.notifier.completedFluxes);
-          setState(() {
-            widget.notifier.isTimerRunning = false;
-          });
-        },
+      return Center(
+        child: Countdown(
+          controller: widget.countdownController,
+          seconds: widget.countdownSeconds,
+          build: (BuildContext context, double time) {
+            String timerValue =
+                '${((time - 1) ~/ 60).toString().padLeft(2, '0')}:${((time) % 60).toStringAsFixed(0).padLeft(2, '0')}';
+            return Text(
+              timerValue,
+              textAlign: TextAlign.center,
+              softWrap: false,
+              style: GoogleFonts.poppins(
+                  fontSize: 100,
+                  fontWeight: FontWeight.w500,
+                  color: Theme.of(context).colorScheme.primary),
+            );
+          },
+          interval: Duration(milliseconds: 100),
+          onFinished: () {
+            print('Timer is done!');
+            widget.notifier.addCompletedFlux(widget.countdownSeconds);
+            print(widget.notifier.completedFluxes);
+            setState(() {
+              widget.notifier.isTimerRunning = false;
+            });
+          },
+        ),
       );
     } else {
       return Text(
-          '${widget.countdownSeconds ~/ 60}:${(widget.countdownSeconds % 60).toStringAsFixed(0).padLeft(2, '0')}',
+          '${(widget.countdownSeconds ~/ 60).toString().padLeft(2, '0')}:${(widget.countdownSeconds % 60).toStringAsFixed(0).padLeft(2, '0')}',
           style: GoogleFonts.poppins(
               fontSize: 100,
               fontWeight: FontWeight.w500,
