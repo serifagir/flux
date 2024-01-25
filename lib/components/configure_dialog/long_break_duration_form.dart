@@ -1,24 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flux/notifier/flux_notifier..dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BreakDurationForm extends StatefulWidget {
+class LongBreakDurationForm extends StatefulWidget {
+  final Function(int) onLongBreakDurationChanged;
   FluxNotifier notifier;
-  final Function(int) onBreakDurationChanged;
 
-  BreakDurationForm({
+  LongBreakDurationForm({
     super.key,
+    required this.onLongBreakDurationChanged,
     required this.notifier,
-    required this.onBreakDurationChanged,
   });
 
   @override
-  State<BreakDurationForm> createState() => _BreakDurationFormState();
+  State<LongBreakDurationForm> createState() => _LongBreakDurationFormState();
 }
 
-class _BreakDurationFormState extends State<BreakDurationForm> {
-  int breakDuration = 15;
+class _LongBreakDurationFormState extends State<LongBreakDurationForm> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
@@ -28,7 +27,7 @@ class _BreakDurationFormState extends State<BreakDurationForm> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            labelText: "Break Duration",
+            labelText: "Long Break Duration",
             labelStyle: GoogleFonts.poppins(
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -45,9 +44,10 @@ class _BreakDurationFormState extends State<BreakDurationForm> {
         onChanged: (e) => {
               setState(() {
                 widget.notifier.currentBreakDuration = int.parse(e!);
-                widget.onBreakDurationChanged(
+                widget.onLongBreakDurationChanged(
                     widget.notifier.currentBreakDuration);
               })
             });
+    ;
   }
 }

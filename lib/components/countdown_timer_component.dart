@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flux/notifier/flux_notifier..dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,6 +48,8 @@ class _CountdownTimerComponentState extends State<CountdownTimerComponent> {
             print(widget.notifier.completedFluxes);
             setState(() {
               widget.notifier.isTimerRunning = false;
+              widget.notifier.isBreakRunning = true;
+              widget.notifier.isOnBreak = true;
             });
           },
         ),
