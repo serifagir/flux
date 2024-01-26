@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 import 'package:provider/provider.dart';
 
 class StatsPage extends StatefulWidget {

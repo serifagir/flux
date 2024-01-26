@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LongBreakDurationForm extends StatefulWidget {
@@ -40,12 +40,12 @@ class _LongBreakDurationFormState extends State<LongBreakDurationForm> {
                     style: GoogleFonts.poppins(
                         fontSize: 20, fontWeight: FontWeight.w800))))
             .toList(),
-        value: widget.notifier.currentBreakDuration.toString(),
+        value: widget.notifier.breakDurationInMinutes.toString(),
         onChanged: (e) => {
               setState(() {
-                widget.notifier.currentBreakDuration = int.parse(e!);
+                widget.notifier.breakDurationInMinutes = int.parse(e!);
                 widget.onLongBreakDurationChanged(
-                    widget.notifier.currentBreakDuration);
+                    widget.notifier.breakDurationInMinutes);
               })
             });
     ;

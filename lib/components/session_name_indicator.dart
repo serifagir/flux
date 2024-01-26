@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 
 class SessionNameIndicator extends StatefulWidget {
   final FluxNotifier notifier;
@@ -14,11 +14,7 @@ class _SessionNameIndicatorState extends State<SessionNameIndicator> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      widget.notifier.sequenceHandler() == "flux"
-          ? "Flux"
-          : widget.notifier.sequenceHandler() == "break"
-              ? "Break"
-              : "Long Break",
+      "flux",
       style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w500,

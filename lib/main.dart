@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 import 'package:flux/pages/mainpage.dart';
 import 'package:flux/theme/dark_theme.dart';
 import 'package:flux/theme/light_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  FluxNotifier notifier = FluxNotifier();
-  notifier.calculateCountdownSeconds();
   runApp(ChangeNotifierProvider(
       create: (context) => FluxNotifier(), child: const MainApp()));
 }

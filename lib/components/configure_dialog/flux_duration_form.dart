@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FluxDurationForm extends StatefulWidget {
@@ -39,12 +39,12 @@ class _FluxDurationFormState extends State<FluxDurationForm> {
                     style: GoogleFonts.poppins(
                         fontSize: 20, fontWeight: FontWeight.w800))))
             .toList(),
-        value: widget.notifier.currentFluxDuration.toString(),
+        value: widget.notifier.fluxDurationInMinutes.toString(),
         onChanged: (e) => {
               setState(() {
-                widget.notifier.currentFluxDuration = int.parse(e!);
-                widget
-                    .onFluxDurationChanged(widget.notifier.currentFluxDuration);
+                widget.notifier.fluxDurationInMinutes = int.parse(e!);
+                widget.onFluxDurationChanged(
+                    widget.notifier.fluxDurationInMinutes);
               })
             });
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SessionCountForm extends StatefulWidget {
@@ -39,12 +39,11 @@ class _SessionCountFormState extends State<SessionCountForm> {
                     style: GoogleFonts.poppins(
                         fontSize: 20, fontWeight: FontWeight.w800))))
             .toList(),
-        value: widget.notifier.currentSessionCount.toString(),
+        value: widget.notifier.sessionCount.toString(),
         onChanged: (e) => {
               setState(() {
-                widget.notifier.currentSessionCount = int.parse(e!);
-                widget
-                    .onSessionCountChanged(widget.notifier.currentSessionCount);
+                widget.notifier.sessionCount = int.parse(e!);
+                widget.onSessionCountChanged(widget.notifier.sessionCount);
               })
             });
   }

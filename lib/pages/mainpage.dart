@@ -8,7 +8,7 @@ import 'package:flux/components/configure_dialog/session_count_form.dart';
 import 'package:flux/components/countdown_timer_component.dart';
 import 'package:flux/components/session_count_indicator.dart';
 import 'package:flux/components/session_name_indicator.dart';
-import 'package:flux/notifier/flux_notifier..dart';
+import 'package:flux/notifier/flux_notifier.dart';
 import 'package:flux/pages/settings.dart';
 import 'package:flux/pages/stats.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,15 +53,6 @@ class _MainPageState extends State<MainPage> {
   void updateSessionCount(int newSessionCount) {
     setState(() {
       sessionCount = newSessionCount;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      final notifier = Provider.of<FluxNotifier>(context, listen: false);
-      notifier.calculateCountdownSeconds();
     });
   }
 
@@ -113,19 +104,19 @@ class _MainPageState extends State<MainPage> {
                       size: 30,
                     ),
                     onPressed: () {
-                      if (!notifier.isTimerRunning) {
-                        showFluxConfigDialog(context, size, notifier);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              "You can't change the settings while the timer is running!",
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              )),
-                          duration: const Duration(seconds: 2),
-                        ));
-                      }
+                      // if (!notifier.isTimerRunning) {
+                      showFluxConfigDialog(context, size, notifier);
+                      // } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "You can't change the settings while the timer is running!",
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            )),
+                        duration: const Duration(seconds: 2),
+                      ));
+                      // }
                     })),
             Positioned(
                 bottom: size.height * 0.05,
@@ -136,19 +127,19 @@ class _MainPageState extends State<MainPage> {
                       size: 30,
                     ),
                     onPressed: () {
-                      if (!notifier.isTimerRunning) {
-                        showFluxConfigDialog(context, size, notifier);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              "You can't change the settings while the timer is running!",
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              )),
-                          duration: const Duration(seconds: 2),
-                        ));
-                      }
+                      // if (!notifier.isTimerRunning) {
+                      showFluxConfigDialog(context, size, notifier);
+                      // } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "You can't change the settings while the timer is running!",
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            )),
+                        duration: const Duration(seconds: 2),
+                      ));
+                      // }
                     })),
             Positioned(
               bottom: size.height * 0.05,
@@ -190,10 +181,10 @@ class _MainPageState extends State<MainPage> {
                   SessionNameIndicator(
                     notifier: notifier,
                   ),
-                  SessionCountIndicator(
-                    sessionCount: sessionCount,
-                    session: notifier.session,
-                  ),
+                  // SessionCountIndicator(
+                  //   sessionCount: sessionCount,
+                  //   session: notifier._sessionsCompleted,
+                  // ),
                   CountdownTimerComponent(
                       notifier: notifier,
                       countdownController: _countdownController,
@@ -204,21 +195,11 @@ class _MainPageState extends State<MainPage> {
                   // ),
                   IconButton(
                       icon: Icon(
-                        notifier.isTimerRunning
-                            ? notifier.isTimerPaused
-                                ? CupertinoIcons.play_circle
-                                : CupertinoIcons.pause_circle
-                            : notifier.isBreakRunning
-                                ? notifier.isBreakPaused
-                                    ? CupertinoIcons.play_circle
-                                    : CupertinoIcons.pause_circle
-                                : CupertinoIcons.play_circle,
+                        Icons.play_arrow,
                         size: 40,
                       ),
                       onPressed: () {
-                        setState(() {
-                          notifier.handleSession();
-                        });
+                        notifier.startNextTimer();
                       }),
                 ],
               ),
