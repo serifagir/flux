@@ -57,6 +57,15 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      final notifier = Provider.of<FluxNotifier>(context, listen: false);
+      notifier.calculateCountdownSeconds();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Consumer<FluxNotifier>(

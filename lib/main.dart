@@ -6,6 +6,8 @@ import 'package:flux/theme/light_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  FluxNotifier notifier = FluxNotifier();
+  notifier.calculateCountdownSeconds();
   runApp(ChangeNotifierProvider(
       create: (context) => FluxNotifier(), child: const MainApp()));
 }
@@ -16,12 +18,14 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
-      home: Scaffold(body: MainPage()),
+    return Consumer<FluxNotifier>(
+      builder: (_, notifier, __) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.system,
+        home: Scaffold(body: MainPage()),
+      ),
     );
   }
 }
