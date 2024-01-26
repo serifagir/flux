@@ -56,18 +56,9 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  void calculateCountdownSeconds(FluxNotifier notifier) {
-    if (notifier.isOnBreak) {
-      notifier.countdownSeconds = breakDuration * 60;
-    } else {
-      notifier.countdownSeconds = fluxDuration * 60;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    calculateCountdownSeconds(Provider.of<FluxNotifier>(context));
     return Consumer<FluxNotifier>(
       builder: (_, notifier, __) => Scaffold(
         body: Stack(
@@ -200,47 +191,19 @@ class _MainPageState extends State<MainPage> {
                   //   notifier: notifier,
                   // ),
                   IconButton(
-                    icon: Icon(
-                      notifier.isTimerRunning
-                          ? notifier.isTimerPaused
-                              ? CupertinoIcons.play_circle
-                              : CupertinoIcons.pause_circle
-                          : notifier.isBreakRunning
-                              ? notifier.isBreakPaused
-                                  ? CupertinoIcons.play_circle
-                                  : CupertinoIcons.pause_circle
-                              : CupertinoIcons.play_circle,
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      if (notifier.isOnBreak) {
-                        if (notifier.isBreakRunning) {
-                          if (notifier.isBreakPaused) {
-                            notifier.isBreakPaused = false;
-                            _countdownController.resume();
-                          } else {
-                            notifier.isBreakPaused = true;
-                            _countdownController.pause();
-                          }
-                        } else {
-                          notifier.isBreakRunning = true;
-                        }
-                      } else {
-                        if (notifier.isTimerRunning) {
-                          if (notifier.isTimerPaused) {
-                            notifier.isTimerPaused = false;
-                            _countdownController.resume();
-                          } else {
-                            notifier.isTimerPaused = true;
-                            _countdownController.pause();
-                          }
-                        } else {
-                          notifier.isTimerRunning = true;
-                        }
-                      }
-                      setState(() {});
-                    },
-                  ),
+                      icon: Icon(
+                        notifier.isTimerRunning
+                            ? notifier.isTimerPaused
+                                ? CupertinoIcons.play_circle
+                                : CupertinoIcons.pause_circle
+                            : notifier.isBreakRunning
+                                ? notifier.isBreakPaused
+                                    ? CupertinoIcons.play_circle
+                                    : CupertinoIcons.pause_circle
+                                : CupertinoIcons.play_circle,
+                        size: 40,
+                      ),
+                      onPressed: () {}),
                 ],
               ),
             ),

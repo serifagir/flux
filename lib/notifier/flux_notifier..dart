@@ -6,7 +6,8 @@ class FluxNotifier with ChangeNotifier {
   bool isBreakRunning = false;
   bool isBreakPaused = false;
   bool isTimerPaused = false;
-  bool isOnBreak = false;
+
+  int session = 0;
 
   int countdownSeconds = 0;
 

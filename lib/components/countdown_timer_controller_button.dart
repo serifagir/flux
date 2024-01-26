@@ -32,20 +32,20 @@ class _CountdownTimerControllerButtonState
         size: 40,
       ),
       onPressed: () {
-        if (widget.notifier.isTimerRunning) {
-          if (widget.notifier.isTimerPaused) {
-            widget.countdownController.resume();
-            widget.notifier.isTimerPaused = false;
+        setState(() {
+          if (widget.notifier.isTimerRunning) {
+            if (widget.notifier.isTimerPaused) {
+              widget.countdownController.resume();
+              widget.notifier.isTimerPaused = false;
+            } else {
+              widget.countdownController.pause();
+              widget.notifier.isTimerPaused = true;
+            }
           } else {
-            widget.countdownController.pause();
-            widget.notifier.isTimerPaused = true;
+            widget.countdownController.start();
+            widget.notifier.isTimerRunning = true;
           }
-        } else {
-          widget.notifier.isTimerRunning = true;
-          widget.notifier.isTimerPaused = false;
-          // Start the timer here
-        }
-        setState(() {});
+        });
       },
     );
   }

@@ -14,7 +14,11 @@ class _SessionNameIndicatorState extends State<SessionNameIndicator> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      widget.notifier.isOnBreak ? 'Break' : 'Flux',
+      widget.notifier.session == widget.notifier.currentSessionCount + 1
+          ? 'Long Break'
+          : widget.notifier.session % 2 == 0
+              ? 'Flux'
+              : 'Break',
       style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w500,

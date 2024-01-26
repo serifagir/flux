@@ -49,7 +49,6 @@ class _CountdownTimerComponentState extends State<CountdownTimerComponent> {
             setState(() {
               widget.notifier.isTimerRunning = false;
               widget.notifier.isBreakRunning = true;
-              widget.notifier.isOnBreak = true;
             });
           },
         ),
