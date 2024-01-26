@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SessionCountIndicator extends StatelessWidget {
+  final int sessionCount;
+  final int session;
   const SessionCountIndicator({
     super.key,
+    required this.session,
     required this.sessionCount,
   });
-
-  final int sessionCount;
 
   @override
   Widget build(BuildContext context) {

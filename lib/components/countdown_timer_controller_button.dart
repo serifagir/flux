@@ -23,30 +23,14 @@ class _CountdownTimerControllerButtonState
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        widget.notifier.isTimerRunning
-            ? widget.notifier.isTimerPaused
-                ? CupertinoIcons.play_arrow
-                : CupertinoIcons.pause
-            : CupertinoIcons.play_arrow,
-        size: 40,
-      ),
-      onPressed: () {
-        setState(() {
-          if (widget.notifier.isTimerRunning) {
-            if (widget.notifier.isTimerPaused) {
-              widget.countdownController.resume();
-              widget.notifier.isTimerPaused = false;
-            } else {
-              widget.countdownController.pause();
-              widget.notifier.isTimerPaused = true;
-            }
-          } else {
-            widget.countdownController.start();
-            widget.notifier.isTimerRunning = true;
-          }
-        });
-      },
-    );
+        icon: Icon(
+          widget.notifier.isTimerRunning
+              ? widget.notifier.isTimerPaused
+                  ? CupertinoIcons.play_arrow
+                  : CupertinoIcons.pause
+              : CupertinoIcons.play_arrow,
+          size: 40,
+        ),
+        onPressed: () {});
   }
 }

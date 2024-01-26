@@ -1,5 +1,3 @@
-import "package:flutter/material.dart";
-
 class Flux {
   final int id;
   final DateTime completedDate;

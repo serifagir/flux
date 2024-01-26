@@ -190,7 +190,10 @@ class _MainPageState extends State<MainPage> {
                   SessionNameIndicator(
                     notifier: notifier,
                   ),
-                  SessionCountIndicator(sessionCount: sessionCount),
+                  SessionCountIndicator(
+                    sessionCount: sessionCount,
+                    session: notifier.session,
+                  ),
                   CountdownTimerComponent(
                       notifier: notifier,
                       countdownController: _countdownController,
@@ -212,7 +215,11 @@ class _MainPageState extends State<MainPage> {
                                 : CupertinoIcons.play_circle,
                         size: 40,
                       ),
-                      onPressed: () {}),
+                      onPressed: () {
+                        setState(() {
+                          notifier.handleSession();
+                        });
+                      }),
                 ],
               ),
             ),

@@ -7,18 +7,35 @@ class FluxNotifier with ChangeNotifier {
   bool isBreakPaused = false;
   bool isTimerPaused = false;
 
-  int session = 0;
 // ----------------- Flux Sequence Settings ----------------- \\
+  int session = -1;
 
   int currentFluxDuration = 30;
   int countdownSeconds = 0;
   int currentBreakDuration = 1;
   int currentLongBreakDuration = 0;
-  int currentSessionCount = 2;
+  int currentSessionCount = 4;
 
-  void sequenceHandler(session, currentSessionCount) {
-    if (session % currentSessionCount == 0 && session != 0) {
+  void handleSession() {
+    if (session == currentSessionCount * 2 - 1) {
+      session = 0;
+    } else {
+      session++;
+    }
+    print(session);
+    notifyListeners();
+  }
+
+  String sequenceHandler() {
+    if ((session + 1) / 2 == currentSessionCount) {
       print("long break");
+      return "long break";
+    } else if (session % 2 == 0) {
+      print("flux");
+      return "flux";
+    } else {
+      print("break");
+      return "break";
     }
   }
 
