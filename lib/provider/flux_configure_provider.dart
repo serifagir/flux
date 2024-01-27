@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FluxConfigureProvider extends ChangeNotifier {
   late SharedPreferences _sharedPreferences;
 
-  static late int _fluxDurationValue;
+  static late int _fluxDurationValue = 15;
   static late int _breakDurationValue;
   static late int _longBreakDurationValue;
   static late int _sessionCountValue;
