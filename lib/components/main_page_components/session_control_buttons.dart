@@ -15,7 +15,12 @@ class SessionControlButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-          onPressed: timerProvider.isEqual ? null : timerProvider.resetTimer,
+          onPressed: () {
+            if (!timerProvider.isEqual) {
+              timerProvider.resetTimer();
+              timerProvider.toggleTimer();
+            }
+          },
           icon: const Icon(Icons.replay, size: 30.0),
         ),
         IconButton(
@@ -31,7 +36,8 @@ class SessionControlButtons extends StatelessWidget {
           onPressed: () {
             timerProvider.jumpNextRound();
           },
-          icon: const Icon(Icons.fast_forward, size: 30.0),
+          icon: Icon(timerProvider.isBreakTime ? Icons.fast_forward : null,
+              size: 30.0),
         ),
       ],
     );

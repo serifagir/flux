@@ -8,7 +8,7 @@ class TimerProvider extends ChangeNotifier {
   // final SoundSelectionProvider _audioProvider = SoundSelectionProvider();
 
   late Timer _timer;
-  int _currentSession = 1;
+  static int _currentSession = 1;
 
   late int _currentTimeInSeconds;
 
@@ -18,6 +18,8 @@ class TimerProvider extends ChangeNotifier {
   TimerProvider() {
     resetTimer();
   }
+
+  static int get currentSession => _currentSession;
 
   bool get isRunning => _isRunning;
   bool get isBreakTime => _isBreakTime;
@@ -36,7 +38,7 @@ class TimerProvider extends ChangeNotifier {
   String get currentTimeDisplay {
     int minutes = _currentTimeInSeconds ~/ 60;
     int seconds = _currentTimeInSeconds % 60;
-    return "$minutes:${seconds.toString().padLeft(2, '0')}";
+    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
   }
 
   String get currentRoundDisplay {

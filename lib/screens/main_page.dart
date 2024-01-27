@@ -28,7 +28,12 @@ class MainPage extends StatelessWidget {
               left: size.width * 0.13,
               child: IconButton(
                   onPressed: () {
-                    fluxConfigureDialog(context);
+                    showDialog(
+                        context: context,
+                        builder: (context) => FluxConfigureDialog(
+                            fluxConfigureProvider:
+                                Provider.of<FluxConfigureProvider>(context,
+                                    listen: false)));
                   },
                   icon: const Icon(
                     CupertinoIcons.waveform,
@@ -53,7 +58,7 @@ class MainPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: SessionTimer()),
+              SessionTimer(),
               SessionControlButtons(),
             ],
           ),
@@ -61,65 +66,68 @@ class MainPage extends StatelessWidget {
       )),
     );
   }
+}
 
-  Future<dynamic> fluxConfigureDialog(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final fluxConfigureProvider =
-        Provider.of<FluxConfigureProvider>(context, listen: false);
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-            backgroundColor: Theme.of(context).colorScheme.background,
-            title: const Text("Configure Flux"),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                DurationWidget(
-                  title: 'flux duration',
-                  sliderValue: FluxConfigureProvider.fluxDurationValue,
-                  max: 60,
-                  min: 15,
-                  updateValue: (newValue) {
-                    fluxConfigureProvider.updateFluxDurationValue(newValue);
-                  },
-                  minText: 'min',
-                ),
-                DurationWidget(
-                  title: 'break duration',
-                  sliderValue: FluxConfigureProvider.breakDurationValue,
-                  max: 20,
-                  min: 5,
-                  updateValue: (newValue) {
-                    fluxConfigureProvider.updateBreakDurationValue(newValue);
-                  },
-                  minText: 'min',
-                ),
-                DurationWidget(
-                  title: 'long break duration',
-                  sliderValue: FluxConfigureProvider.longBreakDurationValue,
-                  max: 30,
-                  min: 10,
-                  updateValue: (newValue) {
-                    fluxConfigureProvider
-                        .updateLongBreakDurationValue(newValue);
-                  },
-                  minText: 'min',
-                ),
-                DurationWidget(
-                  title: 'session count',
-                  sliderValue: FluxConfigureProvider.sessionCountValue,
-                  max: 4,
-                  min: 2,
-                  updateValue: (newValue) {
-                    fluxConfigureProvider.updateSessionCountValue(newValue);
-                  },
-                  minText: '',
-                ),
-                SamuraiModeForm()
-              ],
-            )));
+class FluxConfigureDialog extends StatelessWidget {
+  const FluxConfigureDialog({
+    super.key,
+    required this.fluxConfigureProvider,
+  });
+
+  final FluxConfigureProvider fluxConfigureProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: const Text("Configure Flux"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DurationWidget(
+              title: 'flux duration',
+              sliderValue: FluxConfigureProvider.fluxDurationValue,
+              max: 60,
+              min: 1,
+              updateValue: (newValue) {
+                fluxConfigureProvider.updateFluxDurationValue(newValue);
+              },
+              minText: 'min',
+            ),
+            DurationWidget(
+              title: 'break duration',
+              sliderValue: FluxConfigureProvider.breakDurationValue,
+              max: 20,
+              min: 1,
+              updateValue: (newValue) {
+                fluxConfigureProvider.updateBreakDurationValue(newValue);
+              },
+              minText: 'min',
+            ),
+            DurationWidget(
+              title: 'long break duration',
+              sliderValue: FluxConfigureProvider.longBreakDurationValue,
+              max: 30,
+              min: 1,
+              updateValue: (newValue) {
+                fluxConfigureProvider.updateLongBreakDurationValue(newValue);
+              },
+              minText: 'min',
+            ),
+            DurationWidget(
+              title: 'session count',
+              sliderValue: FluxConfigureProvider.sessionCountValue,
+              max: 4,
+              min: 2,
+              updateValue: (newValue) {
+                fluxConfigureProvider.updateSessionCountValue(newValue);
+              },
+              minText: '',
+            ),
+            const SamuraiModeForm()
+          ],
+        ));
   }
 }
 
@@ -171,7 +179,12 @@ class DurationWidget extends StatelessWidget {
             ),
           ],
         ),
-        TextWithPadding(text: "$sliderValue $minText"),
+        SizedBox(
+          width: 50,
+          child: Text(
+            "$sliderValue min",
+          ),
+        ),
       ],
     );
   }

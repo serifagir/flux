@@ -14,7 +14,7 @@ void main() async {
   final fluxConfigureProvider = FluxConfigureProvider();
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => timerProvider),
+      ChangeNotifierProvider.value(value: timerProvider),
       ChangeNotifierProvider.value(value: autoStartProvider),
       ChangeNotifierProvider.value(value: fluxConfigureProvider),
     ],
