@@ -1,11 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flux/models/flux.dart';
 import 'package:flux/provider/auto_start_provider.dart';
 import 'package:flux/provider/flux_configure_provider.dart';
+import 'package:flux/provider/stats_provider.dart';
+import 'package:provider/provider.dart';
 
 class TimerProvider extends ChangeNotifier {
   // final SoundSelectionProvider _audioProvider = SoundSelectionProvider();
+
+  final statsProvider = StatsProvider();
 
   late Timer _timer;
   static int _currentSession = 1;
@@ -96,6 +101,14 @@ class TimerProvider extends ChangeNotifier {
     } else {
       _timer.cancel();
       _isRunning = false;
+
+      if (!_isBreakTime) {
+        statsProvider.addCompletedFlux(
+          Flux(
+              fluxDuration: FluxConfigureProvider.fluxDurationValue,
+              date: DateTime.now()),
+        );
+      }
 
       _timeControl();
 

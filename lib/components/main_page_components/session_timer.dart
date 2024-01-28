@@ -33,7 +33,7 @@ class TimeModeWidget extends StatelessWidget {
     return Text(timerProvider.isBreakTime ? 'break' : 'flux',
         style: GoogleFonts.poppins(
           fontSize: 20,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
         ));
   }
 }
@@ -93,7 +93,7 @@ class TimeWidget extends StatelessWidget {
         timerProvider.currentTimeDisplay,
         style: GoogleFonts.nanumGothic(
           fontSize: 100,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );

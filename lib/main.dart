@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flux/provider/auto_start_provider.dart';
 import 'package:flux/provider/flux_configure_provider.dart';
+import 'package:flux/provider/samurai_mode_provider.dart';
+import 'package:flux/provider/settings_provider.dart';
+import 'package:flux/provider/stats_provider.dart';
 import 'package:flux/provider/time_provider.dart';
 import 'package:flux/screens/main_page.dart';
 import 'package:flux/theme/dark_theme.dart';
@@ -12,8 +15,14 @@ void main() async {
   final timerProvider = TimerProvider();
   final autoStartProvider = AutoStartProvider();
   final fluxConfigureProvider = FluxConfigureProvider();
+  final samuraiModeProvider = SamuraiModeProvider();
+  final statsProvider = StatsProvider();
+  final settingsProvider = SettingsProvider();
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider.value(value: settingsProvider),
+      ChangeNotifierProvider.value(value: statsProvider),
+      ChangeNotifierProvider.value(value: samuraiModeProvider),
       ChangeNotifierProvider.value(value: timerProvider),
       ChangeNotifierProvider.value(value: autoStartProvider),
       ChangeNotifierProvider.value(value: fluxConfigureProvider),
