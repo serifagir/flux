@@ -77,7 +77,7 @@ class FluxChart extends StatelessWidget {
     }
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 4,
+      space: 2,
       child: Text(text, style: style),
     );
   }
@@ -108,8 +108,8 @@ class FluxChart extends StatelessWidget {
 
   LinearGradient get _barsGradient => LinearGradient(
         colors: [
-          Colors.blue,
-          Colors.cyan,
+          Colors.white,
+          Colors.black,
         ],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
@@ -129,10 +129,7 @@ class FluxChart extends StatelessWidget {
         BarChartGroupData(
           x: 1,
           barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
+            BarChartRodData(toY: 10, gradient: _barsGradient, width: 40)
           ],
           showingTooltipIndicators: [0],
         ),

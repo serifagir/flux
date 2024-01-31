@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux/provider/auto_start_provider.dart';
+import 'package:flux/provider/date_provider.dart';
 import 'package:flux/provider/flux_configure_provider.dart';
 import 'package:flux/provider/samurai_mode_provider.dart';
 import 'package:flux/provider/settings_provider.dart';
@@ -9,7 +10,6 @@ import 'package:flux/screens/main_page.dart';
 import 'package:flux/theme/dark_theme.dart';
 import 'package:flux/theme/light_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +21,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => FluxConfigureProvider()),
       ChangeNotifierProvider(create: (context) => TimerProvider()),
+      ChangeNotifierProvider(create: (context) => DateProvider()),
       ChangeNotifierProvider.value(value: settingsProvider),
       ChangeNotifierProvider.value(value: statsProvider),
       ChangeNotifierProvider.value(value: samuraiModeProvider),
