@@ -5,7 +5,6 @@ import 'package:flux/models/flux.dart';
 import 'package:flux/provider/auto_start_provider.dart';
 import 'package:flux/provider/flux_configure_provider.dart';
 import 'package:flux/provider/stats_provider.dart';
-import 'package:provider/provider.dart';
 
 class TimerProvider extends ChangeNotifier {
   // final SoundSelectionProvider _audioProvider = SoundSelectionProvider();

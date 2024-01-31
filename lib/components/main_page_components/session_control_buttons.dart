@@ -21,7 +21,7 @@ class SessionControlButtons extends StatelessWidget {
               timerProvider.toggleTimer();
             }
           },
-          icon: const Icon(Icons.replay, size: 30.0),
+          icon: Icon(Icons.replay, size: 30.0),
         ),
         IconButton(
           onPressed: () {

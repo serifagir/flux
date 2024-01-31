@@ -1,19 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flux/provider/settings_provider.dart';
+import 'package:flux/screens/settings_screens/block_apps.dart';
 import 'package:flux/screens/settings_screens/language.dart';
 import 'package:flux/screens/settings_screens/sounds_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
-  @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsProvider>(
@@ -49,17 +45,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     onToggle: (value) {
                       notifier.setAutoStart(value);
                     },
-                    initialValue: true,
+                    initialValue: notifier.autoStartNextSession,
                     leading: const Icon(CupertinoIcons.arrow_2_circlepath),
                     title: const Text('Auto start next session'),
                   ),
                   SettingsTile.navigation(
                     leading: const Icon(CupertinoIcons.lock),
                     title: const Text('Block apps'),
+                    onPressed: (context) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const BlockAps(),
+                        ),
+                      );
+                    },
                   ),
                   SettingsTile.switchTile(
-                    initialValue: false,
-                    onToggle: (value) {},
+                    initialValue: notifier.screenAlwaysOn,
+                    onToggle: (value) {
+                      notifier.handleScreenAlwaysOn();
+                    },
                     leading: const Icon(CupertinoIcons.eye),
                     title: const Text('Screen always on'),
                   ),

@@ -9,23 +9,22 @@ import 'package:flux/screens/main_page.dart';
 import 'package:flux/theme/dark_theme.dart';
 import 'package:flux/theme/light_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final timerProvider = TimerProvider();
   final autoStartProvider = AutoStartProvider();
-  final fluxConfigureProvider = FluxConfigureProvider();
   final samuraiModeProvider = SamuraiModeProvider();
   final statsProvider = StatsProvider();
   final settingsProvider = SettingsProvider();
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (context) => FluxConfigureProvider()),
+      ChangeNotifierProvider(create: (context) => TimerProvider()),
       ChangeNotifierProvider.value(value: settingsProvider),
       ChangeNotifierProvider.value(value: statsProvider),
       ChangeNotifierProvider.value(value: samuraiModeProvider),
-      ChangeNotifierProvider.value(value: timerProvider),
       ChangeNotifierProvider.value(value: autoStartProvider),
-      ChangeNotifierProvider.value(value: fluxConfigureProvider),
     ],
     child: const MainApp(),
   ));
@@ -41,7 +40,22 @@ class MainApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
-      home: const Scaffold(body: MainPage()),
+      home: Scaffold(
+          body: FutureBuilder(
+        future: Provider.of<FluxConfigureProvider>(context, listen: false)
+            .loadValueFromSharedPreferences(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else {
+            if (snapshot.error != null) {
+              return const Center(child: Text('An error occurred!'));
+            } else {
+              return const MainPage();
+            }
+          }
+        },
+      )),
     );
   }
 }

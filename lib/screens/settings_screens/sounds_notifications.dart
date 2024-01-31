@@ -2,15 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-class SoundsNotificationsPage extends StatefulWidget {
+class SoundsNotificationsPage extends StatelessWidget {
   const SoundsNotificationsPage({super.key});
 
-  @override
-  State<SoundsNotificationsPage> createState() =>
-      _SoundsNotificationsPageState();
-}
-
-class _SoundsNotificationsPageState extends State<SoundsNotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

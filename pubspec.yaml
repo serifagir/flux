@@ -17,6 +17,7 @@ dependencies:
   timer_count_down: ^2.2.2
   fl_chart: ^0.66.1
   shared_preferences: ^2.2.2
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:
