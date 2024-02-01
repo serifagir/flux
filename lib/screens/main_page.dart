@@ -20,6 +20,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
           Positioned(
               bottom: size.width * 0.1,
@@ -76,14 +77,14 @@ class MainPage extends StatelessWidget {
           //           CupertinoIcons.paintbrush,
           //           size: 30,
           //         ))),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SessionTimer(),
-              SessionControlButtons(),
-            ],
+
+          Center(
+            child: SessionTimer(),
           ),
+          Positioned(
+            bottom: 100,
+            child: SessionControlButtons(),
+          )
         ],
       )),
     );
@@ -102,6 +103,7 @@ class FluxConfigureDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return AlertDialog(
+        surfaceTintColor: Theme.of(context).colorScheme.background,
         backgroundColor: Theme.of(context).colorScheme.background,
         title: Text(
           "Configure Flux",

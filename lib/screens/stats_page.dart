@@ -58,24 +58,40 @@ class StatsPage extends StatelessWidget {
   }
 }
 
-class DailyFluxChart extends StatelessWidget {
+class DailyFluxChart extends StatefulWidget {
   const DailyFluxChart({
     super.key,
   });
 
   @override
+  State<DailyFluxChart> createState() => _DailyFluxChartState();
+}
+
+class _DailyFluxChartState extends State<DailyFluxChart> {
+  final controller = PageController(viewportFraction: 0.8);
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Expanded(
         child: Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.03, vertical: size.height * 0.03),
-      child: Card(
-          surfaceTintColor: Theme.of(context).colorScheme.background,
-          color: Theme.of(context).colorScheme.background,
-          elevation: 5,
-          child: FluxChart()),
-    ));
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.03, vertical: size.height * 0.03),
+            child: Card(
+                surfaceTintColor: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.background,
+                elevation: 5,
+                child: PageView.builder(
+                    controller: controller,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 7,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.03,
+                            vertical: size.height * 0.03),
+                        child: BarChartSample3(),
+                      );
+                    }))));
   }
 }
 

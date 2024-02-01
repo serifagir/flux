@@ -8,6 +8,10 @@ class DarkThemeColors {
 }
 
 ThemeData darkTheme = ThemeData(
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
+  hoverColor: Colors.transparent,
+  focusColor: Colors.transparent,
   colorScheme: ColorScheme.dark(
     primary: DarkThemeColors.primary,
     secondary: DarkThemeColors.secondary,
@@ -19,5 +23,9 @@ ThemeData darkTheme = ThemeData(
     onSurface: DarkThemeColors.primary,
     onError: DarkThemeColors.background,
     brightness: Brightness.dark,
+  ),
+  buttonTheme: const ButtonThemeData(
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
   ),
 );
