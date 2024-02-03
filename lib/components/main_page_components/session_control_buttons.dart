@@ -15,48 +15,52 @@ class SessionControlButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     final timerProvider = Provider.of<TimerProvider>(context);
     final size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-          onPressed: () {
-            if (!timerProvider.isEqual) {
-              timerProvider.resetTimer();
-            }
-            if (!timerProvider.isRunning) {
-              timerProvider.resetCurrentSession();
-            }
-          },
-          icon: Icon(
-              timerProvider.isRunning ? null : CupertinoIcons.refresh_thick,
-              size: 30.0),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
-        ),
-        IconButton(
-          onPressed: () {
-            timerProvider.toggleTimer();
-          },
-          icon: Icon(
-            timerProvider.isRunning
-                ? CupertinoIcons.pause_fill
-                : CupertinoIcons.play_fill,
-            size: 50.0,
+    return Positioned(
+      bottom: 100,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: () {
+              if (!timerProvider.isEqual) {
+                timerProvider.resetTimer();
+              }
+              if (!timerProvider.isRunning) {
+                timerProvider.resetCurrentSession();
+              }
+            },
+            icon: Icon(
+                timerProvider.isRunning ? null : CupertinoIcons.refresh_thick,
+                size: 30.0),
           ),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
-        ),
-        IconButton(
-          onPressed: () {
-            timerProvider.jumpNextRound();
-          },
-          icon: Icon(timerProvider.isBreakTime ? CupertinoIcons.forward : null,
-              size: 30.0),
-        ),
-      ],
+          SizedBox(
+            width: size.width * 0.1,
+          ),
+          IconButton(
+            onPressed: () {
+              timerProvider.toggleTimer();
+            },
+            icon: Icon(
+              timerProvider.isRunning
+                  ? CupertinoIcons.pause_fill
+                  : CupertinoIcons.play_fill,
+              size: 50.0,
+            ),
+          ),
+          SizedBox(
+            width: size.width * 0.1,
+          ),
+          IconButton(
+            onPressed: () {
+              timerProvider.jumpNextRound();
+            },
+            icon: Icon(
+                timerProvider.isBreakTime ? CupertinoIcons.forward : null,
+                size: 30.0),
+          ),
+        ],
+      ),
     );
   }
 }
