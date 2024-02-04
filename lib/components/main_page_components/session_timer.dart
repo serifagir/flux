@@ -12,13 +12,15 @@ class SessionTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TimeModeWidget(),
-        SessionCountIndicator(),
-        TimeWidget(),
-      ],
+    return Center(
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TimeModeWidget(),
+          SessionCountIndicator(),
+          TimeWidget(),
+        ],
+      ),
     );
   }
 }
