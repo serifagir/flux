@@ -49,13 +49,6 @@ class TimerProvider extends ChangeNotifier {
     return "$_currentSession/${FluxConfigureProvider.sessionCountValue}";
   }
 
-  void resetCurrentSession() {
-    _currentSession = 1;
-    _timer.isActive ? _timer.cancel() : null;
-    _isBreakTime = false;
-    notifyListeners();
-  }
-
   void toggleTimer() {
     if (!_isRunning) {
       _isRunning = true;

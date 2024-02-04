@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flux/provider/flux_configure_provider.dart';
 import 'package:flux/provider/time_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,46 +10,33 @@ class SessionControlButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timerProvider = Provider.of<TimerProvider>(context);
-    final size = MediaQuery.of(context).size;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
           onPressed: () {
             if (!timerProvider.isEqual) {
               timerProvider.resetTimer();
-            }
-            if (!timerProvider.isRunning) {
-              timerProvider.resetCurrentSession();
+              timerProvider.toggleTimer();
             }
           },
-          icon: Icon(
-              timerProvider.isRunning ? null : CupertinoIcons.refresh_thick,
-              size: 30.0),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
+          icon: Icon(Icons.replay, size: 30.0),
         ),
         IconButton(
           onPressed: () {
             timerProvider.toggleTimer();
           },
           icon: Icon(
-            timerProvider.isRunning
-                ? CupertinoIcons.pause_fill
-                : CupertinoIcons.play_fill,
-            size: 50.0,
+            timerProvider.isRunning ? Icons.pause : Icons.play_arrow,
+            size: 40.0,
           ),
-        ),
-        SizedBox(
-          width: size.width * 0.1,
         ),
         IconButton(
           onPressed: () {
             timerProvider.jumpNextRound();
           },
-          icon: Icon(timerProvider.isBreakTime ? CupertinoIcons.forward : null,
+          icon: Icon(timerProvider.isBreakTime ? Icons.fast_forward : null,
               size: 30.0),
         ),
       ],

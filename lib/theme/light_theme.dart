@@ -8,10 +8,6 @@ class LightThemeColors {
 }
 
 ThemeData lightTheme = ThemeData(
-  splashColor: Colors.transparent,
-  highlightColor: Colors.transparent,
-  hoverColor: Colors.transparent,
-  focusColor: Colors.transparent,
   colorScheme: ColorScheme.light(
     primary: LightThemeColors.primary,
     secondary: LightThemeColors.secondary,
@@ -24,12 +20,4 @@ ThemeData lightTheme = ThemeData(
     onError: LightThemeColors.background,
     brightness: Brightness.light,
   ),
-  buttonTheme: const ButtonThemeData(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      focusColor: Colors.transparent),
-  iconButtonTheme: const IconButtonThemeData(
-      style: ButtonStyle(
-          splashFactory: NoSplash.splashFactory, enableFeedback: false)),
 );
