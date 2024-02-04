@@ -6,6 +6,7 @@ import 'package:flux/provider/flux_configure_provider.dart';
 import 'package:flux/provider/samurai_mode_provider.dart';
 import 'package:flux/provider/time_provider.dart';
 import 'package:flux/screens/settings_page.dart';
+import 'package:flux/screens/stats_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -21,48 +22,72 @@ class MainPage extends StatelessWidget {
           child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          SettingsPageNavigateButton(size: size, timerProvider: timerProvider),
-          FluxConfigureDialogButton(size: size, timerProvider: timerProvider),
-          StatsPageNavigateButton(size: size),
-          CustomizePageNavigateButton(size: size),
-          const SessionTimer(),
-          const SessionControlButtons()
+          Positioned(
+              bottom: size.width * 0.1,
+              left: size.width * 0.02,
+              child: timerProvider.isRunning
+                  ? const SizedBox()
+                  : IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SettingsPage()));
+                      },
+                      icon: const Icon(CupertinoIcons.gear_alt, size: 30))),
+          Positioned(
+              bottom: size.width * 0.1,
+              left: size.width * 0.13,
+              child: timerProvider.isRunning
+                  ? const SizedBox()
+                  : IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => FluxConfigureDialog(
+                                fluxConfigureProvider:
+                                    Provider.of<FluxConfigureProvider>(context,
+                                        listen: false)));
+                      },
+                      icon: const Icon(
+                        CupertinoIcons.waveform,
+                        size: 30,
+                      ))),
+          Positioned(
+              bottom: size.width * 0.1,
+              right: size.width * 0.02,
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const StatsPage()));
+                  },
+                  icon: const Icon(CupertinoIcons.chart_bar_square, size: 30))),
+          // Positioned(
+          //     bottom: size.width * 0.1,
+          //     right: size.width * 0.13,
+          //     child: IconButton(
+          //         onPressed: () {
+          //           showDialog(
+          //               context: context,
+          //               builder: (context) => const CustomizePage());
+          //         },
+          //         icon: const Icon(
+          //           CupertinoIcons.paintbrush,
+          //           size: 30,
+          //         ))),
+
+          Center(
+            child: SessionTimer(),
+          ),
+          Positioned(
+            bottom: 100,
+            child: SessionControlButtons(),
+          )
         ],
       )),
     );
-  }
-}
-
-class FluxConfigureDialogButton extends StatelessWidget {
-  const FluxConfigureDialogButton({
-    super.key,
-    required this.size,
-    required this.timerProvider,
-  });
-
-  final Size size;
-  final TimerProvider timerProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        bottom: size.width * 0.1,
-        left: size.width * 0.13,
-        child: timerProvider.isRunning
-            ? const SizedBox()
-            : IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => FluxConfigureDialog(
-                          fluxConfigureProvider:
-                              Provider.of<FluxConfigureProvider>(context,
-                                  listen: false)));
-                },
-                icon: const Icon(
-                  CupertinoIcons.waveform,
-                  size: 30,
-                )));
   }
 }
 
@@ -180,57 +205,47 @@ class DurationWidget extends StatelessWidget {
     final timerProvider = Provider.of<TimerProvider>(context);
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Text(
-              title,
-              softWrap: true,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  softWrap: true,
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  " $sliderValue $minText",
+                  softWrap: true,
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              " ${timerProvider.currentTimeDisplay} $minText",
-              softWrap: true,
-              textAlign: TextAlign.left,
-              style: GoogleFonts.poppins(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-              ),
+            Slider(
+              label: "$sliderValue",
+              divisions: 6,
+              max: max,
+              min: min,
+              value: sliderValue.toDouble(),
+              onChanged: (value) {
+                sliderValue = value.toInt();
+                updateValue(sliderValue);
+                timerProvider.resetTimer();
+              },
             ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  updateValue(15);
-                  timerProvider.resetTimer();
-                },
-                child: Text("25")),
-            ElevatedButton(
-                onPressed: () {
-                  updateValue(15);
-                  timerProvider.resetTimer();
-                },
-                child: Text("40")),
-            ElevatedButton(
-                onPressed: () {
-                  updateValue(15);
-                  timerProvider.resetTimer();
-                },
-                child: Text("50")),
-            ElevatedButton(
-                onPressed: () {
-                  updateValue(15);
-                  timerProvider.resetTimer();
-                },
-                child: Text("15")),
           ],
         ),
       ],
@@ -295,81 +310,5 @@ class SamuraiModeForm extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class SettingsPageNavigateButton extends StatelessWidget {
-  const SettingsPageNavigateButton({
-    super.key,
-    required this.size,
-    required this.timerProvider,
-  });
-
-  final Size size;
-  final TimerProvider timerProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        bottom: size.width * 0.1,
-        left: size.width * 0.02,
-        child: timerProvider.isRunning
-            ? const SizedBox()
-            : IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SettingsPage()));
-                },
-                icon: const Icon(CupertinoIcons.gear_alt, size: 30)));
-  }
-}
-
-class StatsPageNavigateButton extends StatelessWidget {
-  const StatsPageNavigateButton({
-    super.key,
-    required this.size,
-  });
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        bottom: size.width * 0.1,
-        right: size.width * 0.02,
-        child: IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Text("null")));
-            },
-            icon: const Icon(CupertinoIcons.chart_bar_square, size: 30)));
-  }
-}
-
-class CustomizePageNavigateButton extends StatelessWidget {
-  const CustomizePageNavigateButton({
-    super.key,
-    required this.size,
-  });
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        bottom: size.width * 0.1,
-        right: size.width * 0.13,
-        child: IconButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => const Text("customize page"));
-            },
-            icon: const Icon(
-              CupertinoIcons.paintbrush,
-              size: 30,
-            )));
   }
 }
