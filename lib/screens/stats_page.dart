@@ -1,172 +1,52 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flux/components/stats_page_components/bar_chart_component.dart';
-import 'package:flux/provider/date_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flux/screens/stats_screens/daily_stats.dart';
+import 'package:flux/screens/stats_screens/monthly_stats.dart';
+import 'package:flux/screens/stats_screens/weekly_starts.dart';
+import 'package:flux/screens/stats_screens/yearly_stats.dart';
 
-class StatsPage extends StatelessWidget {
+class StatsPage extends StatefulWidget {
   const StatsPage({super.key});
 
   @override
+  State<StatsPage> createState() => _StatsPageState();
+}
+
+class _StatsPageState extends State<StatsPage> {
+  @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return DefaultTabController(
+      initialIndex: 1,
       length: 4,
       child: Scaffold(
         appBar: AppBar(
+          title: const Text('flux stats'),
           bottom: const TabBar(
-            tabs: [
-              Tab(text: 'Daily'),
-              Tab(text: 'Weekly'),
-              Tab(text: 'Monthly'),
-              Tab(text: 'Yearly'),
+            tabs: <Widget>[
+              Tab(
+                text: "Daily",
+              ),
+              Tab(
+                text: "Weekly",
+              ),
+              Tab(
+                text: "Monthly",
+              ),
+              Tab(
+                text: "Yearly",
+              )
             ],
           ),
-          title: const Text('Stats'),
         ),
-        body: const SafeArea(
-          child: TabBarView(
-            children: <Widget>[
-              Center(
-                child: Column(
-                  children: [
-                    DailyTimeController(),
-                    DailyFluxChart(),
-                  ],
-                ),
-              ),
-              Center(
-                child: Column(
-                  children: [WeeklyTimeController(), DailyFluxChart()],
-                ),
-              ),
-              Center(
-                child: Column(
-                    // children: [MonthlyTimeController(), DailyFluxChart()],
-                    ),
-              ),
-              Center(
-                child: Column(
-                    // children: [YearlyTimeController(), DailyFluxChart()],
-                    ),
-              ),
-            ],
-          ),
+        body: const TabBarView(
+          children: <Widget>[
+            DailyStats(),
+            WeeklyStats(),
+            MonthlyStats(),
+            YearlyStats(),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class DailyFluxChart extends StatelessWidget {
-  const DailyFluxChart({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Expanded(
-        child: Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.03, vertical: size.height * 0.03),
-      child: Card(
-          surfaceTintColor: Theme.of(context).colorScheme.background,
-          color: Theme.of(context).colorScheme.background,
-          elevation: 5,
-          child: FluxChart()),
-    ));
-  }
-}
-
-class DailyTimeController extends StatefulWidget {
-  const DailyTimeController({
-    super.key,
-  });
-  @override
-  State<DailyTimeController> createState() => _DailyTimeControllerState();
-}
-
-class _DailyTimeControllerState extends State<DailyTimeController> {
-  @override
-  Widget build(BuildContext context) {
-    final dateProvider = Provider.of<DateProvider>(context);
-    //todo: add functionality to change date
-    final size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: const Icon(CupertinoIcons.back),
-          onPressed: () {
-            setState(() {
-              dateProvider.decrementDate1Day();
-            });
-            print(dateProvider.date);
-          },
-        ),
-        SizedBox(width: size.width * 0.1),
-        Text(
-          '${dateProvider.monthMap[dateProvider.date.month]} ${dateProvider.date.day}, ${dateProvider.date.year}',
-        ),
-        SizedBox(width: size.width * 0.1),
-        IconButton(
-          icon: const Icon(CupertinoIcons.forward),
-          onPressed: () {
-            setState(() {
-              dateProvider.incrementDate1Day();
-            });
-            print(dateProvider.date);
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class WeeklyTimeController extends StatefulWidget {
-  const WeeklyTimeController({
-    super.key,
-  });
-  @override
-  State<WeeklyTimeController> createState() => _WeeklyTimeControllerState();
-}
-
-class _WeeklyTimeControllerState extends State<WeeklyTimeController> {
-  @override
-  Widget build(BuildContext context) {
-    final dateProvider = Provider.of<DateProvider>(context);
-    //todo: add functionality to change date
-    final size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: const Icon(CupertinoIcons.back),
-          onPressed: () {
-            setState(() {
-              dateProvider.decrementDate1Week();
-            });
-            print(dateProvider.date);
-          },
-        ),
-        SizedBox(width: size.width * 0.1),
-        Text(
-          '${dateProvider.monthMap[dateProvider.date.month]} ${dateProvider.date.day}, ${dateProvider.date.year}',
-        ),
-        SizedBox(width: size.width * 0.1),
-        IconButton(
-          icon: const Icon(CupertinoIcons.forward),
-          onPressed: () {
-            setState(() {
-              dateProvider.incrementDate1Day();
-            });
-            print(dateProvider.date);
-          },
-        ),
-      ],
     );
   }
 }

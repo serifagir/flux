@@ -1,15 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flux/provider/flux_configure_provider.dart';
 import 'package:flux/provider/settings_provider.dart';
 import 'package:flux/screens/settings_screens/block_apps.dart';
 import 'package:flux/screens/settings_screens/language.dart';
 import 'package:flux/screens/settings_screens/sounds_notifications.dart';
+import 'package:flux/screens/settings_screens/time_screens/break_time_screen.dart';
+import 'package:flux/screens/settings_screens/time_screens/flux_time_screen.dart';
+import 'package:flux/screens/settings_screens/time_screens/long_break_time_screen.dart';
+import 'package:flux/screens/settings_screens/time_screens/session_count_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsProvider>(
@@ -67,6 +77,55 @@ class SettingsPage extends StatelessWidget {
                     },
                     leading: const Icon(CupertinoIcons.eye),
                     title: const Text('Screen always on'),
+                  ),
+                ],
+              ),
+              SettingsSection(
+                title: const Text('Time'),
+                tiles: <SettingsTile>[
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.login),
+                    title: const Text('Flux Time'),
+                    trailing: Text(
+                        "${FluxConfigureProvider.fluxDurationValue.toString()} minutes"),
+                    onPressed: (context) => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const FluxTimeScreen(),
+                      ),
+                    ),
+                  ),
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.login),
+                    title: const Text('Break Time'),
+                    trailing: Text(
+                        "${FluxConfigureProvider.breakDurationValue.toString()} minutes"),
+                    onPressed: (context) => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const BreakTimeScreen(),
+                      ),
+                    ),
+                  ),
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.login),
+                    title: const Text('Long Break Time'),
+                    trailing: Text(
+                        "${FluxConfigureProvider.longBreakDurationValue.toString()} minutes"),
+                    onPressed: (context) => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LongBreakTimeScreen(),
+                      ),
+                    ),
+                  ),
+                  SettingsTile.navigation(
+                    leading: const Icon(Icons.login),
+                    title: const Text('Session Count'),
+                    trailing: Text(
+                        "${FluxConfigureProvider.sessionCountValue.toString()} sessions"),
+                    onPressed: (context) => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SessionCountScreen(),
+                      ),
+                    ),
                   ),
                 ],
               ),
