@@ -1,9 +1,9 @@
 class Flux {
   final int fluxDuration;
-  final DateTime date;
+  final DateTime startDate;
 
   Flux({
     required this.fluxDuration,
-    required this.date,
+    required this.startDate,
   });
 }

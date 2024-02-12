@@ -105,7 +105,7 @@ class TimerProvider extends ChangeNotifier {
         statsProvider.addCompletedFlux(
           Flux(
               fluxDuration: FluxConfigureProvider.fluxDurationValue,
-              date: DateTime.now()),
+              startDate: DateTime.now()),
         );
       }
 
